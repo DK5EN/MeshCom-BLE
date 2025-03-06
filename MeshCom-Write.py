@@ -90,7 +90,7 @@ async def run(message):
     byte_array = laenge.to_bytes(1, 'big') +  bytes ([0xA0]) + byte_array
 
     #HELLO zum Abfragen und um das Device aufzuwecken
-    message = bytes([0x03, 0x10, 0x20, 0x30])
+    message = bytes([0x04, 0x10, 0x20, 0x30])
     await write_characteristic(client, write_char_uuid, message)
 
     #Nachricht senden

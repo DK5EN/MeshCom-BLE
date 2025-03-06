@@ -64,8 +64,7 @@ from struct import *
 #Constants
 write_char_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e" # UUID_Char_WRITE
 read_char_uuid =  "6e400003-b5a3-f393-e0a9-e50e24dcca9e" # UUID_Char_NOTIFY
-#hello_byte = bytes([0x03, 0x10, 0x20, 0x30, 0x00])
-hello_byte = bytes([0x03, 0x10, 0x20, 0x30])
+hello_byte = bytes([0x04, 0x10, 0x20, 0x30])
 
 dataFlag = False #global flag to check for new data
 
