@@ -1,0 +1,8 @@
+{
+"api_key" : "replace with open wx api key",
+"CLIENT_ID" : "replace with client id from Netatmo",
+"CLIENT_SECRET" : "replace with client scret from Netatomo",
+"TOKEN_URL" : "https://api.netatmo.com/oauth2/token",
+"WEATHER_URL" : "https://api.netatmo.com/api/getstationsdata",
+"REFRESH_TOKEN" :"generate a access and refresh token. enter refresh token here"
+}

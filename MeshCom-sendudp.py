@@ -1,3 +1,55 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Script Name: MeshCom-sendudp.py
+Author: Martin Stefan Werner
+CallSign: DK5EN
+Where to find: https://www.qrz.com/db/DK5EN
+Date: 2025-03-06
+Version: 2025030659
+Description: The example script sends a message with UDP to a MeshCom node
+MC FW: MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
+MC HW: TLORA_V2_1_1p6
+
+A word of Caution: as the MeshCom firmware is under heavy development, expect to see changes on the BLE interface
+
+        This project is based on work by: https://icssw.org/meshcom/
+        With insights from: https://srv08.oevsv.at/meshcom/#
+
+Honorable Mentions:
+OE1KBC: Based on the "as is interface" provided by Kurt Baumann (oe1kbc@icssw.org) "https://github.com/icssw-org/MeshCom-Firmware/releases"
+
+License:
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+To view a copy of this license, visit https://creativecommons.org/licenses/by-sa/4.0/ or send a letter to
+Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+Copyright (c) 2025 Martin S. Werner
+
+You are free to:
+- Share - copy and redistribute the material in any medium or format
+- Adapt - remix, transform, and build upon the material
+
+Under the following terms:
+- Attribution - You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+- ShareAlike - If you remix, transform, or build upon the material, you must distribute your contributions under the same license.
+
+Disclaimer:
+This script is provided "as is", without warranty of any kind, express or implied.
+
+There are reprequistes to be met, otherwise the script will fail:
+        The IP address must be known of the MC node
+	--extudp must be on
+
+This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
+MeshCom node tested against:
+        HW: TLORA_V2_1_1p6
+        FW: Firmware MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
+        running on a RaspberryPi 5, with 8GB RAM and Debian Bookwork
+
+"""
+# Code starts here
+
 import socket
 
 def send_udp_message (message, ip_address, port):
@@ -16,13 +68,6 @@ def send_udp_message (message, ip_address, port):
     print(f"Error: {e}")
     return False
 
-  #Direkt Nachricht
-  #message = {"type":"msg","dst":"DK5EN-99","msg":"Test direkt an DK5EN-99 via UDP"}
-
-  #Broadcast Nachricht
-  #message = {"type":"msg","dst":"999","msg":"Test auf die 999 via UDP"}
-  #message = "{\"type\":\"msg\",\"dst\":\"DK5EN-99\",\"msg\":\"Test direkt an DK5EN-99 via UDP\"}"
-
 #grp="999"
 #grp="DK5EN-99"
 grp="*"
@@ -34,30 +79,7 @@ msg="Test auf die " + grp + " via UDP + DNS Auflösung zusammengesetzt"
 #msg="APRS:Test auf die " + grp + " via UDP + DNS Auflösung zusammengesetzt"
 #msg="APRS: mal alles raus an aprsi.fi "
 
-#src_type = node
-#{"src_type":"node","type":"pos","src":"DK5EN-99","msg":"","lat":48.4073,"lat_dir":"N","long":11.7412,"long_dir":"E","aprs_symbol":"G","aprs_symbol_group":"/","hw_id":"3","msg_id":"7AD58135","alt":1640,"batt":100}
-
-
-#src_type = lora
-#{ "src_type":"lora","type":"pos","src":"DL3NCU-1,DB0ED-1","msg":"","lat":48.3015,"lat_dir":"N","long":11.9145,"long_dir":"E","aprs_symbol":"#","aprs_symbol_group":"/","hw_id":"3","msg_id":"1F32F00F","alt":1677,"batt":100,"firmware":"4.34"}
-
-# {"src_type":"lora","type":"pos","src":"DG7RJ-1,DG7RJ-12,DK5EN-12","msg":"","lat":48.3017,"lat_dir":"N","long":11.6278,"long_dir":"E","aprs_symbol":"b","aprs_symbol_group":"/","hw_id":"12","msg_id":"39D1309B","alt":1545,"batt":100,"firmware":"4.34"}
-#{"src_type":"lora","type":"pos","src":"DG7RJ-3,DG7RJ-12,DK5EN-12","msg":"","lat":48.3022,"lat_dir":"N","long":11.6277,"long_dir":"E","aprs_symbol":"#","aprs_symbol_group":"/","hw_id":"43","msg_id":"EA0A8095","alt":1526,"batt":100,"firmware":"4.34"}
-
-#{"src_type":"lora","type":"pos","src":"DL2JA-1","msg":"","lat":48.4230,"lat_dir":"N","long":11.7865,"long_dir":"E","aprs_symbol":"-","aprs_symbol_group":"/","hw_id":"43","msg_id":"E9F1106F","alt":1785,"batt":100,"firmware":"4.34"}
-
-#{"src_type":"lora","type":"pos","src":"DB0ED-1,DL2JA-1","msg":"","lat":48.2860,"lat_dir":"N","long":12.0337,"long_dir":"E","aprs_symbol":"#","aprs_symbol_group":"/","hw_id":"43","msg_id":"4F747195","alt":1726,"batt":100,"firmware":"4.34"}
-
-#{"src_type":"udp","type":"msg","src":"OE1XAR-45","dst":"*","msg":"{CET}2025-03-04 11:21:14","msg_id":"67C45485"}
-#{"src_type":"udp","type":"msg","src":"OK2ZAW-43","dst":"*","msg":"rak test","msg_id":"B4FB7003"}
-#{"src_type":"udp","type":"msg","src":"OE1XAR-45","dst":"*","msg":"{CET}2025-03-04 11:36:18","msg_id":"67C45488"}
-
-#{"src_type":"lora","type":"pos","src":"DG7RJ-12,DK5EN-12","msg":"","lat":48.3022,"lat_dir":"N","long":11.6277,"long_dir":"E","aprs_symbol":"-","aprs_symbol_group":"/","hw_id":"43","msg_id":"EF2ED257","alt":1526,"batt":100,"firmware":"4.34"}
-#{"src_type":"lora","type":"pos","src":"DK5EN-12","msg":"","lat":48.4077,"lat_dir":"N","long":11.7385,"long_dir":"E","aprs_symbol":"G","aprs_symbol_group":"/","hw_id":"43","msg_id":"EFF8503C","alt":1585,"batt":100,"firmware":"4.34"}
-
-
 message = "{\"type\":\"msg\",\"dst\":\"" + grp + "\",\"msg\":\"" + msg + "\"}"
-
 
 print(f"Message : {message}")
 port = 1799 #	 stadard Port für MC
@@ -65,8 +87,6 @@ port = 1799 #	 stadard Port für MC
 hostname = "dk5en-99.local"
 ip_address = socket.gethostbyname(hostname)
 
-#debug code
-#print("IP-Adresse von {} ist {}".format(hostname, ip_address))
 
 if send_udp_message(message,ip_address,port):
     print("Message sent sccessful!")

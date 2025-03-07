@@ -57,6 +57,7 @@ sudo systemctl restart bluetooth
 # Code starts here
 import json
 import asyncio
+import aioconsole
 from bleak import BleakClient
 from datetime import datetime
 from struct import *
@@ -228,13 +229,13 @@ def decode_binary_message(byte_msg):
       #Frame checksum checken
       fcs_ok = (calced_fcs == fcs)
 
-      if message.startswith("{CET}"):
+      if message.startswith(":{CET}"):
         dest_type = "Datum & Zeit Broadcast an alle"
       
       elif path.startswith("response"):
         dest_type = "user input response"
 
-      elif message.startswith("*!"):
+      elif message.startswith("!"):
         dest_type = "Positionsmeldung"
 
       elif dest == "*":
@@ -281,10 +282,20 @@ async def write_characteristic(client, char_uuid, data):
   except Exception as e:
     print(f"Error writing characteristic: {e}")
 
+async def user_input_task(stop_event):
+    """Task to listen for user input to stop the loop."""
+    while not stop_event.is_set():
+        user_input = await aioconsole.ainput("Enter 'q' to quit: \n")
+        if user_input.strip().lower() == 'q':
+            print("Stopping...")
+            stop_event.set()
 
 async def run(address, loop):
 
   print("trying to connect ...")
+
+  stop_event = asyncio.Event()
+
   async with BleakClient(address, loop=loop) as client:
     # wait for BLE client to be connected
     if client.is_connected:
@@ -298,15 +309,19 @@ async def run(address, loop):
     await write_characteristic(client, write_char_uuid, hello_byte)
     print("HELLO sent ..")
 
-    while True :
-      #the game loop
+    # Start user input listener
+    asyncio.create_task(user_input_task(stop_event))
+
+    while not stop_event.is_set():
+      #waiting for q + enter
+
       global dataFlag
 
       if dataFlag :
          #oh yea, we have new messages waiting
          dataFlag = False
 
-	 #collect valueable data
+	     #collect valueable data
          data = await client.read_gatt_char(write_char_uuid)
 
       else:

@@ -28,8 +28,11 @@ Disclaimer:
 This script is provided "as is", without warranty of any kind, express or implied.
 
 There are reprequistes to be met, otherwise the script will fail:
-        HW must have Bluetooth Chip
 	only not yet connected devices show up (have you disconnected your phone from your bluetooth device?)
+    HW must have Bluetooth Chip, check for LE support if unsure: 
+        $ hciconfig hci0 features|grep LE
+		<AFH cls. perip.> <LE support> <3-slot EDR ACL> 
+		<LE and BR/EDR> <simple pairing> <encapsulated PDU> 
 
 This is an educational script, that helps to understand of how to communicate to scan for Bluetooth devices
         running on a RaspberryPi 5, with 8GB RAM and Debian Bookwork
@@ -38,15 +41,15 @@ Sometimes it is nessaserry to restart the Bluetooth stack:
 sudo systemctl restart bluetooth
 
 Additional helpful commands.
-(MyEnvMartin) martin@rpi5:~/MC $ bluetoothctl
+ $ bluetoothctl
 scan on
-   gibt aus Device MC-b560-DK5EN-99, Address: D4:D4:DA:9E:B5:62
+   > gibt aus Device MC-b560-DK5EN-99, Address: D4:D4:DA:9E:B5:62
 pair D4:D4:DA:9E:B5:62
 scan off
 connect D4:D4:DA:9E:B5:62
 exit
 
-(MyEnvMartin) martin@rpi5:~/MC $ bluetoothctl info D4:D4:DA:9E:B5:62
+ $ bluetoothctl info D4:D4:DA:9E:B5:62
 Device D4:D4:DA:9E:B5:62 (public)
 	Name: MC-b560-DK5EN-99
 	Alias: MC-b560-DK5EN-99
@@ -60,7 +63,7 @@ Device D4:D4:DA:9E:B5:62 (public)
 	UUID: Generic Attribute Profile (00001801-0000-1000-8000-00805f9b34fb)
 	UUID: Nordic UART Service       (6e400001-b5a3-f393-e0a9-e50e24dcca9e)
 
-(MyEnvMartin) martin@rpi5:~/MC $ bluetoothctl disconnect D4:D4:DA:9E:B5:62
+ $ bluetoothctl disconnect D4:D4:DA:9E:B5:62
 Attempting to disconnect from D4:D4:DA:9E:B5:62
 [CHG] Device D4:D4:DA:9E:B5:62 ServicesResolved: no
 Successful disconnected
@@ -78,4 +81,3 @@ async def scan_ble_devices():
 # Run the BLE scan
 loop = asyncio.get_event_loop()
 loop.run_until_complete(scan_ble_devices())
-
