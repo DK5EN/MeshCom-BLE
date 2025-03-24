@@ -10,13 +10,23 @@ Version: 2025030701
 Description: The example script reads wether data from a NetAtmo WX station and adds OpenWeatherMap data. It then 
              sends a weather Report to Group 20 to a MeshCom node via UDP
 MC FW: MeshCom 4.34q
-MC HW: TLORA_V2_1_1p6
+MC HW: TLORA_V2_1_1p6 / Heltec v3
 
 A word of Caution: as the MeshCom firmware is under heavy development, expect to see changes on the UDP interface
 
     This project is based on work by: https://icssw.org/meshcom/
     With insights from: https://srv08.oevsv.at/meshcom/#
 
+This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
+This script also deals with the complicated, but highly secure method of Netatmo login handling
+
+There are reprequistes to be met, otherwise the script will fail:
+    You need a MeshCom Node
+    You need a NetAtmo weather station with outdoor module, rain and wind 
+    --extudp must be on you MeshCom node and it must be reachable within the network
+    You need a RaspberryPi 5, with 8GB RAM and Debian Bookwork
+"""
+"""
 License:
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
 To view a copy of this license, visit https://creativecommons.org/licenses/by-sa/4.0/ or send a letter to
@@ -35,14 +45,6 @@ Under the following terms:
 Disclaimer:
 This script is provided "as is", without warranty of any kind, express or implied.
 
-There are reprequistes to be met, otherwise the script will fail:
-    You need a MeshCom Node
-    You need a NetAtmo weather station with outdoor module, rain and wind 
-    --extudp must be on you MeshCom node and it must be reachable within the network
-    You need a RaspberryPi 5, with 8GB RAM and Debian Bookwork
-
-This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
-This script also deals with the complicated, but highly secure method of Netatmo login handling
 """
 
 import requests
