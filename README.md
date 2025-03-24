@@ -1,6 +1,6 @@
-This is git repo is to share ideas about Bluetooth communications with the MeshCom device.
+This git repo is to share ideas about Bluetooth and UDP communications with the MeshCom device.
 
-My personal creative intent was, to:
+My personal creative intent is to:
 - Share knowledge about MeshCom 4.0 BLE communications (documented by source code!)
 - Help me to eliminate and UDP or Serial Connection with the MC Node
 - Understand the communications between a MeshCom node (as of MeshCom 4.34p, build: Mar 1 2025 / 20:56:39
