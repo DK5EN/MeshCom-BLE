@@ -40,7 +40,7 @@ This is an educational script, that helps to understand of how to communicate to
 Sometimes it is nessaserry to restart the Bluetooth stack:
 sudo systemctl restart bluetooth
 
-Additional helpful commands.
+Additional helpful commands. After you have discovered your devive, you need to pair it. pairing only avaibale during scan on
  $ bluetoothctl
 scan on
    > gibt aus Device MC-b560-DK5EN-99, Address: D4:D4:DA:9E:B5:62
@@ -67,7 +67,6 @@ Device D4:D4:DA:9E:B5:62 (public)
 Attempting to disconnect from D4:D4:DA:9E:B5:62
 [CHG] Device D4:D4:DA:9E:B5:62 ServicesResolved: no
 Successful disconnected
-
 """
 import asyncio
 from bleak import BleakScanner
