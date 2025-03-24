@@ -5,15 +5,14 @@ Script Name: MeshCom-Write.py
 Author: Martin Stefan Werner
 CallSign: DK5EN
 Where to find: https://www.qrz.com/db/DK5EN
-Date: 2025-03-06
-Version: 2025030603
+Date: 2025-03-24
+
 Description: The example script establishes a BLE communication to a MeshCom node and sends a message
-		See results on https://srv08.oevsv.at/meshcom/# -> Â"Test" Page
-MC FW: MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
-MC HW: TLORA_V2_1_1p6
+		See results on https://srv08.oevsv.at/meshcom/# -> "Test" Page
+MC FW: MeshCom 4.34v (build: Mar 22 2025 / 07:01:38)
+MC HW: TLORA_V2_1_1p6 / Heltec v3
 
 Disclaimer: a word of Caution: as the MeshCom firmware is under heavy development, expect to see changes on the BLE interface
-
         This project is based on work by: https://icssw.org/meshcom/
         With insights from: https://srv08.oevsv.at/meshcom/#
 
@@ -43,24 +42,20 @@ This script is provided "as is", without warranty of any kind, express or implie
 There are reprequistes to be met, otherwise the script will fail:
         BLE MAC address of MC node must be known,
         Bluetooth must be paired already.
+        If you Flash-erase your device, you have to re-pair bluetooth
 
 This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
 MeshCom node tested against:
-        HW: TLORA_V2_1_1p6
-        FW: Firmware MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
         running on a RaspberryPi 5, with 8GB RAM and Debian Bookwork
 
 If you CRTL + c the script, be sure to reset the bluetooth stack with:
 sudo systemctl restart bluetooth
 """
-# Code starts here
-
 import asyncio
 from bleak import BleakClient
 
 write_char_uuid = "6e400002-b5a3-f393-e0a9-e50e24dcca9e" # UUID_Char_WRITE
 read_char_uuid =  "6e400003-b5a3-f393-e0a9-e50e24dcca9e" # UUID_Char_NOTIFY
-
 
 async def read_characteristic(client, char_uuid):
   try:
@@ -75,7 +70,6 @@ async def write_characteristic(client, char_uuid, data):
     print(f"Wrote value: {data}")
   except Exception as e:
     print(f"Error writing characteristic: {e}")
-
 
 async def run(message):
   print("Searching for BLE device ...")
@@ -97,9 +91,11 @@ async def run(message):
     await write_characteristic(client, write_char_uuid, byte_array)
 
 
-MAC_ADDRESS = "D4:D4:DA:9E:B5:62"
+#MAC_ADDRESS = "D4:D4:DA:9E:B5:62" #T-LoRa
+MAC_ADDRESS = "48:CA:43:3A:83:AD" #Heltec v3
 
-grp = "DK5EN-99"
+#grp = "DK5EN-99"
+grp = "TEST"
 msg = "Test 57 mit Python Ã¼ber bluetooth"
 
 message = "{" + grp + "}" + msg

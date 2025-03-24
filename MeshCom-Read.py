@@ -47,8 +47,6 @@ There are reprequistes to be met, otherwise the script will fail:
 
 This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
 MeshCom node tested against:
-	HW: TLORA_V2_1_1p6
-	FW: Firmware MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
 	running on a RaspberryPi 5, with 8GB RAM and Debian Bookwork
 
 If you CRTL + c the script, be sure to reset the bluetooth stack with:
@@ -79,7 +77,6 @@ def calc_fcs(msg):
     
     #print("calc_fcs=" + hex(fcs))
     return fcs
-
 
 def notification_handler(sender, clean_msg):
 
@@ -132,11 +129,9 @@ def notification_handler(sender, clean_msg):
            #elif typ == "CONFFIN": # Habe Fertig! Mehr gibt es nicht
            #  print("Habe fertig")
 
-
          except KeyError:
              print(error) 
              print(var)
-
 
     # Binärnachrichten beginnen mit '@'
     elif clean_msg.startswith(b'@'):
@@ -148,7 +143,6 @@ def notification_handler(sender, clean_msg):
     global dataFlag
     dataFlag = True
 
-
 def decode_json_message(byte_msg):
     try:
         json_str = byte_msg.rstrip(b'\x00').decode("utf-8")[1:]
@@ -157,7 +151,6 @@ def decode_json_message(byte_msg):
     except (json.JSONDecodeError, UnicodeDecodeError) as e:
         print(f"Fehler beim Dekodieren der JSON-Nachricht: {e}")
         return None
-
 
 def decode_binary_message(byte_msg):
 
@@ -185,21 +178,19 @@ def decode_binary_message(byte_msg):
 
        json_obj = {k: v for k, v in locals().items() if k in [
           "payload_type",
-	  "msg_id",
-	  "max_hop",
-	  "mesh_info",
-	  "message",
-	  "ack_id",
-	  "calced_fcs" ]}
+	        "msg_id",
+	        "max_hop",
+	        "mesh_info",
+	        "message",
+	        "ack_id",
+	        "calced_fcs" ]}
 
-       #return f"{msg_id:#06x} ACK payload_type:{payload_type} {message}"
        return json_obj
 
     elif bytes(byte_msg[:2]) in {b'@:', b'@!'}:
-
       #remaining_msg = byte_msg[7:]  # Alles nach Hop
-
       # Extrahiere den Path
+
       split_idx = remaining_msg.find(b'>')
       if split_idx == -1:
         return "Kein gültiges Routing-Format"
@@ -267,7 +258,6 @@ def decode_binary_message(byte_msg):
           "ending" 
           ]}
 
-      #print(json.dumps(json_obj, indent=2))
       return json_obj
 
     else:
@@ -321,19 +311,18 @@ async def run(address, loop):
          #oh yea, we have new messages waiting
          dataFlag = False
 
-	     #collect valueable data
+	       #collect valueable data
          data = await client.read_gatt_char(write_char_uuid)
 
       else:
         #give some time to do other tasks
         await asyncio.sleep(1)
       
-
 if __name__ == "__main__":
    #Device MC-b560-DK5EN-99, Address: D4:D4:DA:9E:B5:62
-   address = (
-	"D4:D4:DA:9E:B5:62"
-   )
+   #Device MC-83ac-DK5EN-99, Address: 48:CA:43:3A:83:AD
+   
+   address = ( "48:CA:43:3A:83:AD" )
 
    loop = asyncio.new_event_loop()
    asyncio.set_event_loop(loop)
