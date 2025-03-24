@@ -73,10 +73,11 @@ import asyncio
 from bleak import BleakScanner
 
 async def scan_ble_devices():
-  print("Please give me a second to complete bluetooth scan ..")
+  print("Please give me a second to complete bluetooth scan for MC-* ..")
   devices = await BleakScanner.discover()
   for device in devices:
-    print(f"Device {device.name}, Address: {device.address}")
+    if device.name.startswith("MC-"):
+      print(f"Device {device.name}, Address: {device.address}")
 
 # Run the BLE scan
 loop = asyncio.get_event_loop()
