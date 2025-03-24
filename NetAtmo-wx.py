@@ -43,7 +43,6 @@ There are reprequistes to be met, otherwise the script will fail:
 
 This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
 This script also deals with the complicated, but highly secure method of Netatmo login handling
-
 """
 
 import requests
@@ -53,7 +52,7 @@ import os
 from datetime import datetime, timedelta
 import socket
 
-CONFIG_FILE = "config.jsonc"
+CONFIG_FILE = "/etc/NetAtmo-wx/config.jsonc"
 TOKENS_FILE = "tokens.json"
 
 #Go to openweathermap.org and generate an API key
@@ -139,6 +138,7 @@ def load_json_with_comments(filename):
         print("Hint: Stelle sicher, dass alle Zeilen im Format '\"key\" : \"value\",' sind.")
         exit(1)
 
+#Zugriffs-Token von NetAtmo auslesen und verwenden
 def read_tokens(file_path):
     try:
       with open(file_path,'r') as file:
@@ -181,7 +181,7 @@ def save_tokens(filepath, request_token, access_token, expire_time):
     with open(filepath,'w') as file:
         json.dump(tokens,file)
 
-#Funktion zum Abrufen des access_token von der NetAtmo APO mit request_token
+#Funktion zum Abrufen des access_token von NetAtmo mit request_token
 def get_access_token_from_netatmo(request_token):
 
     #Config File auslesen
@@ -301,24 +301,27 @@ def format_weather_report():
       snow_last_1h = weather_data["snow_last_1h"]
 
       OW_city = weather_data["City"]
-      OW_wx_desc = weather_data["description"]
+      OW_wx_desc = weather_data["description"] #Wert unzuverlässig, korreliert nich mit Cloud Coverage und scheint nur rain_last_1h auzulesen
       OW_temp = weather_data["temperature"]
       OW_humidity = weather_data["humidity"]
       OW_pressure = weather_data["air_pressure"]
       OW_rain_last_1h = weather_data["rain_last_1h"]
       OW_wind = weather_data["wind_speed"] * 3.6 #wir wollen km/h und keine m/s
-      OW_cloud_coverage = weather_data["cloud_coverage"]
+      OW_cloud_coverage = weather_data["cloud_coverage"] #wert unzuverlässig
 
     else:
         print ("Failed to retrieve OpenWeather data.")
 
     #Jetzt NetAtmo Behandlung
+    #print(station)
+    #'Rain': 0, 'sum_rain_1': 0, 'sum_rain_24': 0
     modules = {m["module_name"]: m for m in station["modules"]}
     
     pressure = station["dashboard_data"]["Pressure"]
     abs_pressure = station["dashboard_data"]["AbsolutePressure"]
     rain = modules["Regen"]["dashboard_data"].get("sum_rain_24", 0)
     rain_now = modules["Regen"]["dashboard_data"].get("Rain", 0)
+    rain_last_1 = modules["Regen"]["dashboard_data"].get("sum_rain_1", 0)
     wind = modules["Wind"]["dashboard_data"].get("GustStrength", 0)
     temp = modules["Terrasse"]["dashboard_data"]["Temperature"]
     humidity = modules["Terrasse"]["dashboard_data"]["Humidity"]
@@ -327,7 +330,11 @@ def format_weather_report():
 
     # Sinnvoll kombinierte Ausgabe von NetAtmo und OpenWeather 
     #return f"{get_greeting()}, WX {home}/{locator} {OW_wx_desc}: {OW_temp:.1f}°C/Terrasse {temp}°C, {humidity}% relH, QNH:{pressure}hPa/{abs_pressure}hPa, Regen {rain}mm/24h, Wind {OW_wind:.1f}km/h / Terrasse:{wind}km/h, {OW_cloud_coverage}/8 Wolken"
-    return f"{get_greeting()}, WX {home}/{locator} {OW_wx_desc}: {temp}°C, {humidity}% relH, QNH:{pressure}hPa/{abs_pressure}hPa, rain {rain}mm/24h, wind {wind:.1f}km/h, {OW_cloud_coverage}/8 Wolken"
+    #return f"{get_greeting()}, WX {home}/{locator} {OW_wx_desc}: {temp}°C, {humidity}% relH, QNH:{pressure}hPa/{abs_pressure}hPa, rain {rain}mm/24h, wind {wind:.1f}km/h, {OW_cloud_coverage}/8 Wolken"
+    #kein OW_wx_desc - weil falsch
+    #kein OW_cloud_coverage - weil falsch
+
+    return f"{get_greeting()}, WX {home}/{locator}: {temp}°C, {humidity}% relH, QNH:{pressure}hPa/{abs_pressure}hPa, rain {rain}mm/24h, wind {wind:.1f}km/h"
 
 def send_udp_message (message, ip_address, port):
   try:
@@ -349,12 +356,7 @@ def send_mc_msg(grp, text):
    port = 1799 #    stadard Port für MC
    hostname = "dk5en-99.local"
 
-   #grp="999"
-   #grp="DK5EN-99"
-   #grp="*"
 
-   #Standard Text an MeshCom
-   #msg="Test " + text
    msg= text
 
    #Standard Text an APRS.fi
@@ -362,18 +364,23 @@ def send_mc_msg(grp, text):
    #msg="APRS: mal alles raus an aprsi.fi "
 
    message = "{\"type\":\"msg\",\"dst\":\"" + grp + "\",\"msg\":\"" + msg + "\"}"
-
-   print(f"Message : {message}")
+   #print(f"Message : {message}")
 
    ip_address = socket.gethostbyname(hostname)
    if send_udp_message(message,ip_address,port):
-       print("Message sent sccessful!")
+       #print(f"Message sent sccessful!")
+       print(f"")
    else:
        print("Failed to send message.")
 
 if __name__ == "__main__":
     #print(format_weather_report())
     wx_report = format_weather_report()
-    
-    #Wettermeldungen in Gruppe 20
-    send_mc_msg("20", wx_report)
+
+    #grp="999"
+    #grp="DK5EN-99"
+    #grp="*"
+
+    #Wettermeldungen in nach TEST / sonst Gruppe 20
+    send_mc_msg("TEST", wx_report)
+    print(f"{wx_report}")
