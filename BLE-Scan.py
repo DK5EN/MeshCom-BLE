@@ -77,8 +77,10 @@ async def scan_ble_devices():
   devices = await BleakScanner.discover()
   for device in devices:
     if device.name.startswith("MC-"):
-      print(f"Device {device.name}, Address: {device.address}")
+      print(f"Device {device.name}, Address: {device.address}, RSSI: {device._rssi}")
 
 # Run the BLE scan
-loop = asyncio.get_event_loop()
-loop.run_until_complete(scan_ble_devices())
+#loop = asyncio.get_event_loop()
+#loop.run_until_complete(scan_ble_devices())
+
+asyncio.run(scan_ble_devices())
