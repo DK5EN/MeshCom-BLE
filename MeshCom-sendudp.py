@@ -5,16 +5,15 @@ Script Name: MeshCom-sendudp.py
 Author: Martin Stefan Werner
 CallSign: DK5EN
 Where to find: https://www.qrz.com/db/DK5EN
-Date: 2025-03-06
-Version: 2025030659
+Date: 2025-03-24
+
 Description: The example script sends a message with UDP to a MeshCom node
-MC FW: MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
-MC HW: TLORA_V2_1_1p6
+MC FW: MeshCom 4.34v (build: Mar 22 2025 / 07:01:38)
+MC HW: TLORA_V2_1_1p6 / Heltec v3
 
 A word of Caution: as the MeshCom firmware is under heavy development, expect to see changes on the BLE interface
-
         This project is based on work by: https://icssw.org/meshcom/
-        With insights from: https://srv08.oevsv.at/meshcom/#
+        With insights from: https://srv08.oevsv.at/meshcom/
 
 Honorable Mentions:
 OE1KBC: Based on the "as is interface" provided by Kurt Baumann (oe1kbc@icssw.org) "https://github.com/icssw-org/MeshCom-Firmware/releases"
@@ -42,14 +41,8 @@ There are reprequistes to be met, otherwise the script will fail:
 	--extudp must be on
 
 This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
-MeshCom node tested against:
-        HW: TLORA_V2_1_1p6
-        FW: Firmware MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
         running on a RaspberryPi 5, with 8GB RAM and Debian Bookwork
-
 """
-# Code starts here
-
 import socket
 
 def send_udp_message (message, ip_address, port):
@@ -70,14 +63,15 @@ def send_udp_message (message, ip_address, port):
 
 #grp="999"
 #grp="DK5EN-99"
-grp="*"
-
-#Standard Text an MeshCom
-msg="Test auf die " + grp + " via UDP + DNS Auflösung zusammengesetzt"
+#grp="*"
+grp="TEST"
 
 #Standard Text an APRS.fi
 #msg="APRS:Test auf die " + grp + " via UDP + DNS Auflösung zusammengesetzt"
 #msg="APRS: mal alles raus an aprsi.fi "
+
+#Standard Text an MeshCom
+msg="Test auf die " + grp + " via UDP + DNS Auflösung zusammengesetzt"
 
 message = "{\"type\":\"msg\",\"dst\":\"" + grp + "\",\"msg\":\"" + msg + "\"}"
 
@@ -86,7 +80,6 @@ port = 1799 #	 stadard Port für MC
 
 hostname = "dk5en-99.local"
 ip_address = socket.gethostbyname(hostname)
-
 
 if send_udp_message(message,ip_address,port):
     print("Message sent sccessful!")
