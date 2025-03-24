@@ -5,10 +5,10 @@ Script Name: MeshCom-readudp.py
 Author: Martin Stefan Werner
 CallSign: DK5EN
 Where to find: https://www.qrz.com/db/DK5EN
-Date: 2025-03-96
-Version: 2025030901
+Date: 2025-03-24
+
 Description: The example script sends a message with UDP to a MeshCom node
-MC FW: MeshCom 4.34p (build: Mar 1 2025 / 20:56:39)
+MC FW: MeshCom 4.34v (build: Mar 22 2025 / 07:01:38)
 MC HW: HeltecV3
 
         This project is based on work by: https://icssw.org/meshcom/
