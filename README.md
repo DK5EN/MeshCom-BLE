@@ -1,12 +1,13 @@
-This git repo is to share ideas about Bluetooth and UDP communications with the MeshCom device.
+This git repo is to share ideas about Bluetooth and UDP communications with a MeshCom device.
 
 My personal creative intent is to:
 - Share knowledge about MeshCom 4.0 BLE communications (documented by source code!)
 - Help me to eliminate and UDP or Serial Connection with the MC Node
-- Understand the communications between a MeshCom node (as of MeshCom 4.34p, build: Mar 1 2025 / 20:56:39
-- Talk to a TLORA_V2_1_1p6
+- Understand the communications between a MeshCom node (as of MeshCom 4.34p, build: Mar 1 2025 / 20:56:39)
+- Talk to a TLORA_V2_1_1p6 and Heltec v3 device
 - Teach my how to code in python
 - Teach me how to scan, pair and connect to BLE devices
+- Teach me how to use vscode nad github
 
 Currntly available:
 - an example to scan for BLE devices and retrieving their MAC address, as this is needed for a connection
@@ -23,18 +24,17 @@ It doesn't have a GUI, nor a menu system.
 Infinte loops must be stopped by CRTL-C.
 Bluetooth stack needs a reset after a hard interruption.
 
-You need hardware, thtat supports the proper BLE protocol.
+You need hardware, that supports the proper BLE protocol.
 I used a RaspberryPi 5 with 8GB Ram, running raspian, basically Debian Bookworm.
 
 Disclaimer:
-This script is provided "as is", without warranty of any kind, express or implied.
-
-This is an educational script, that helps to understand of how to communicate to scan for Bluetooth devices
+This scripts are provided "as is", without warranty of any kind.
+These are educational scripts, that help to understand of how to communicate to scan for Bluetooth devices.
 
 About the Autor: Martin Stefan Werner
 CallSign: DK5EN
 Where to find: https://www.qrz.com/db/DK5EN
-Date last edited : 2025-03-06 11:35h
+Date last edited : 2025-03-24 21:26h
 
 License:
 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.

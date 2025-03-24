@@ -5,8 +5,8 @@ Script Name: NetAtmo-wx.py
 Author: Martin Stefan Werner
 CallSign: DK5EN
 Where to find: https://www.qrz.com/db/DK5EN
-Date: 2025-03-07
-Version: 2025030701
+Date: 2025-03-24
+
 Description: The example script reads wether data from a NetAtmo WX station and adds OpenWeatherMap data. It then 
              sends a weather Report to Group 20 to a MeshCom node via UDP
 MC FW: MeshCom 4.34q
@@ -46,7 +46,6 @@ Disclaimer:
 This script is provided "as is", without warranty of any kind, express or implied.
 
 """
-
 import requests
 import json
 import re

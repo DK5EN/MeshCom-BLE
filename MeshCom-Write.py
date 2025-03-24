@@ -9,9 +9,22 @@ Date: 2025-03-24
 
 Description: The example script establishes a BLE communication to a MeshCom node and sends a message
 		See results on https://srv08.oevsv.at/meshcom/# -> "Test" Page
+
 MC FW: MeshCom 4.34v (build: Mar 22 2025 / 07:01:38)
 MC HW: TLORA_V2_1_1p6 / Heltec v3
 
+There are reprequistes to be met, otherwise the script will fail:
+        BLE MAC address of MC node must be known,
+        Bluetooth must be paired already.
+        If you Flash-erase your device, you have to re-pair bluetooth
+
+This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
+MeshCom node tested against a RaspberryPi 5, with 8GB RAM and Debian Bookwork
+
+If you CRTL + c the script, be sure to reset the bluetooth stack with:
+sudo systemctl restart bluetooth
+"""
+"""
 Disclaimer: a word of Caution: as the MeshCom firmware is under heavy development, expect to see changes on the BLE interface
         This project is based on work by: https://icssw.org/meshcom/
         With insights from: https://srv08.oevsv.at/meshcom/#
@@ -38,18 +51,6 @@ Under the following terms:
 
 Disclaimer:
 This script is provided "as is", without warranty of any kind, express or implied.
-
-There are reprequistes to be met, otherwise the script will fail:
-        BLE MAC address of MC node must be known,
-        Bluetooth must be paired already.
-        If you Flash-erase your device, you have to re-pair bluetooth
-
-This is an educational script, that helps to understand of how to communicate to a MeshCom Node.
-MeshCom node tested against:
-        running on a RaspberryPi 5, with 8GB RAM and Debian Bookwork
-
-If you CRTL + c the script, be sure to reset the bluetooth stack with:
-sudo systemctl restart bluetooth
 """
 import asyncio
 from bleak import BleakClient
