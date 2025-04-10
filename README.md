@@ -47,6 +47,20 @@ You are free to:
 - Share - copy and redistribute the material in any medium or format
 - Adapt - remix, transform, and build upon the material
 
+Text based Communication and Compression:
+934K mcdump.json - uncompressed
+ 41K mcdump.json.zpaq
+ 51K mcdump.json.br
+ 54K mcdump.json.bz2
+ 56K mcdump.json.xz
+ 57K mcdump.json.zst -19
+ 66K mcdump.json.7z
+ 66K mcdump.json.gz (original gzip)
+ 78K mcdump.json.gz (zopfli)
+ 78K mcdump.json.5.zst
+
+
+
 Under the following terms:
 - Attribution - You must give appropriate credit, provide a link to the license, and indicate if changes were made.
 - ShareAlike - If you remix, transform, or build upon the material, you must distribute your contributions under the same license.
